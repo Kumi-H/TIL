@@ -133,6 +133,81 @@ final String GREETING_MSG = "こんにちは、世界！";
 #### var
 
 ---
+
+### 配列
+
+**配列の宣言**
+
+```java
+int[] 変数名;
+int 変数名[];  // 大カッコは変数名の後ろでもOK
+
+// 二次元配列
+int[][] arrayA;
+int[] arrayA[];
+
+// 三次元配列
+int arrayB[][][];
+int[][] arrayB[];
+```
+
+**配列インスタンスの生成**
+
+```java
+int[] array = new int[3]; // 要素数3つの配列
+
+// 以下2つは同じ意味(要素数ゼロ。これは実行するとハッシュコードが返る)
+int[] array = {};
+int[] array = new int[0];
+
+// 以下2つは同じ意味
+int[] array = {1, 2};
+int[] array = new int[]{1, 2};　
+// ↑初期化子{}を使う場合は、new int[]の大カッコ内に要素数は書かない（自動的に要素数が決まるため）
+
+int[][] array = new int[][]{};
+int[][] array = {}; // 初期化子が自動的に必要な次元数を算出するのでOK
+```
+
+※初期化子は変数宣言と同時にしか使えない
+
+
+---
+
+### ArrayList
+
+ジェネリクスの指定なしのArrayListインスタンス
+
+```java
+ArrayList list = new ArrayList();
+
+ArrayList list = new ArrayList<>();
+```
+
+型が混在しないようにするにはジェネリクスを使う
+
+```java
+ArrayList<String> list = new ArrayList<>();
+```
+
+固定長のリストを作る方法
+
+```java
+// Listインターフェースのofメソッドを使う
+var list = List.of(1, 2, 3);
+
+// ArraysクラスのasListクラスを使う
+var list = Arrays.asList(new Integer[]{1, 2, 3});
+
+Integer[] array = {1, 2, 3};
+var list = Arrays.asList(array);
+```
+
+**removeメソッド**<br>
+条件が合致する最初の要素を削除する
+
+
+---
 ### 条件分岐・繰り返し
 
 #### switch文、switch式
