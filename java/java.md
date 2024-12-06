@@ -111,9 +111,9 @@ StringBuilderはデフォルトで16文字バッファを持っている
 
 同種: instanceof演算子を使う（型の互換性があるか）
 
-==演算子でインスタンスを作る場合は、定数用のメモリ空間に作られる
-
-new演算子でインスタンスを作る場合は、インスタンス用のメモリ空間に作られる
+* ==演算子でインスタンスを作る場合は、定数用のメモリ空間に作られる
+* new演算子でインスタンスを作る場合は、インスタンス用のメモリ空間に作られる
+* equalsメソッドは引数にnullを渡されるとfalseを返す
 
 ---
 
@@ -208,31 +208,40 @@ var list = Arrays.asList(array);
 
 
 ---
-### 条件分岐・繰り返し
 
-#### switch文、switch式
+### switch文、switch式
 
-switch文: breakを入れないとフォールスルーする。defaultはなくてもよい。
+**switch文**
+* breakを入れないとフォールスルーする
+* defaultはなくてもよい。
 
-switch式: `->` を使う。break不要。defaultは欠かせない。文の終わりにセミコロンが必要。値を戻すにはyieldを使う。Java SE 14以降から使える
+**switch式（Java SE 14以降から使える）**
+*  `->` を使う
+* break不要
+* defaultは欠かせない（位置はどこでもよい）
+* 文の終わりにセミコロンが必要
+* 値を戻すにはyieldを使う
 
-do-while文は、中カッコを省略した場合、doとwhileの間は1文のみ記述できる。
+---
 
-２文以上記述した場合はコンパイルエラーとなる。
+### 繰り返し
 
-拡張For文: 配列の場合に使える
+**do-while文**
+* 中カッコを省略した場合、doとwhileの間は1文のみ記述できる
+* 2文以上記述した場合はコンパイルエラーとなる
 
-```markdown
-for (String name: names)
-name => 配列の要素
-names => 配列
+**拡張For文**
+* 配列の場合に使える
+
+```java
+for (String name: names) // name->配列の要素, names->配列
 ```
 
 ---
 
 メソッド: クラスの中で使える
 
-```markdown
+```java
 戻り値が無い場合
 public static void メソッド名(){
 }
