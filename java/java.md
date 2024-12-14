@@ -550,13 +550,30 @@ public sealed class スーパークラス名 permits A, B{
 ---
 ### 例外処理
 
-**チェック例外**<br>
-Exception 例外処理を記述したかどうかをコンパイラが検査する例外
+#### チェック例外 Exception
+* 例外処理を記述したかどうかをコンパイラが検査する例外
 
-**非チェック例外**<br>
-RuntimeException 例外処理を記述したかどうかをコンパイラが検査しない例外
+#### 非チェック例外 RuntimeException
+* Exceptionのサブクラス
+* 例外処理を記述したかどうかをコンパイラが検査しない例外
+
+#### マルチキャッチ
+* 同じ例外処理を1つのcathブロックにまとめて記述することができる
+* RuntimeExceptionを先に記述し、その後にExceptionを記述する
+```java
+try{
+
+} catch ( AException | BException | CException e ) {
+
+} catch ( DException e ) {
+
+} finally {
+
+}
+```
+
 
 ---
-### memo
+### MEMO
 **JVM**<br>
 Java仮想マシン
