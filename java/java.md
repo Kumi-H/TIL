@@ -265,13 +265,29 @@ for (String name: names) // name->配列の要素, names->配列
 
 ---
 ### クラス
-```java
-class Sample{
 
+#### トップレベルクラス（外部クラス）
+- 使えるアクセス修飾子はpublic、または何もつけない
+
+#### インナークラス（内部クラス）
+- クラスの中に定義したクラスのこと
+- static,privateはインナークラスの宣言で使える
+
+```java
+// トップレベルクラス（外部クラス）
+class OuterClass {
+    private String str = "OuterClassの変数";
+    
+    // インナークラス（内部クラス）
+    class InnerClass {
+        public void innerSample() {
+            System.out.println(str);
+        }
+    }
 }
 ```
-**クラスフィールド**  
 
+#### クラスフィールド  
 - 初期値も設定できる
 
 ```java
@@ -279,8 +295,7 @@ public static String name;
 public static データ型 変数名;
 ```
 
-**クラスメソッド**
-
+#### クラスメソッド
 - クラスメソッドはインスタンスを生成しない状態でも呼び出すことができる
 
 ```java
@@ -500,6 +515,7 @@ class Car extends Vehicle{
 - 抽象メソッドを1つでも持つクラスは「抽象クラス」と呼ばれる
 - 抽象クラスはクラス名の前に`abstract`をつける必要がある
 - 抽象クラスはインスタンスを生成できない
+- 抽象クラスはfinalで修飾できない（継承することを前提としたクラスのため）
 
 ```java
 abstract class Vehicle {
@@ -515,6 +531,7 @@ abstract class Vehicle {
 ### インターフェース
 
 - インターフェースはインスタンス化できない
+- インターフェースはfinalで修飾できない（継承することを前提としているため）
 - 定数（※）、デフォルトメソッド、クラスメソッド（staticで修飾されたメソッド）以外の実装は記述できない<br>
 ※インタフェースのメンバ変数は自動的にpublic static finalが付けられるため定数になる
 - インターフェースを実現するクラスを作りインスタンス化する
@@ -538,22 +555,22 @@ class クラス名 implements インターフェースA, インターフェー�
 
 ----
 ### シールクラス
-- Java SE 17から導入
+- Java SE 17から導入されたクラス
+- シールクラスを継承するサブクラスは、final,sealed,non-sealedのいずれかで修飾しなければならない
 
 ```java
 // permitsの後に継承を許可するクラスを指定
 public sealed class スーパークラス名 permits A, B{
-
 }
 ```
 
 ---
 ### 例外処理
 
-#### チェック例外 Exception
+#### Exception チェック例外 
 * 例外処理を記述したかどうかをコンパイラが検査する例外
 
-#### 非チェック例外 RuntimeException
+#### RuntimeException 非チェック例外 
 * Exceptionのサブクラス
 * 例外処理を記述したかどうかをコンパイラが検査しない例外
 
