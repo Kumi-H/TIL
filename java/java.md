@@ -67,17 +67,38 @@ java Sample.java
 
 #### javacコマンド
 ```java
-javac Sample.java  // コンパイル
+javac Sample.java  // コンパイル（ここでクラスファイルが作成される）
 java Sample        // 実行
 ```
 
+#### ソースファイル
+* Javaのソースファイルは`public`なクラスの名前と同じファイル名でなくてはならない
+* 1つのソースファイルに`public`ではない複数のクラスを記述することは可能
+```java
+// 下記のコードを記述したファイルの名前はA.javaでなくてはならない
+// 実行コマンド
+// javac A.java
+// java A (または、java B)
+
+public class A {
+    public static void main(String[] args) throws Exception {  
+        System.out.println("A");
+    }
+}
+
+class B {
+    public static void main(String[] args) throws Exception {  
+        System.out.println("B");
+    }
+}
+```
 
 
 ---
 
 ### エントリーポイント
 
-処理を始めるためのメソッドのこと
+* 処理を始めるためのメソッドのこと
 
 ```java
 public static void main(String[] args){
@@ -85,7 +106,7 @@ public static void main(String[] args){
 }
 ```
 
-**条件**
+#### 条件
 - `public`であること
 - インスタンスを生成しなくても実行できること（`static`であること）
 - 戻り値は戻せないこと（`void`であること）
@@ -138,9 +159,6 @@ public static void main(String[] args){
 * ==演算子でインスタンスを作る場合は、定数用のメモリ空間に作られる
 * new演算子でインスタンスを作る場合は、インスタンス用のメモリ空間に作られる
 * equalsメソッドは引数にnullを渡されるとfalseを返す
-
-#### instanceof演算子のパターンマッチング
-
 
 ---
 
@@ -420,34 +438,20 @@ public static String メソッド名(){
 - `setフィールド名`のように命名するのが一般的
 - 戻り値はない
 
-
-
-
----
-### レコード
-- 名前付きタプル
-- 一度保持したデータは変更できない
-- 継承できない（サブクラスを作れない）
-```java
-アクセス修飾子 record Customer (String name, int age, String address){
-}
-```
-
-
 ---
 ### インスタンス
 * オブジェクトの別名であり、実体という意味
 * 実際の開発でも、インスタンスにどんな情報を持たせるかをまず考え、書き出したりする
 
 
-**インスタンスフィールド**
+#### インスタンスフィールド
 
 ```java
 public String name;
 public データ型 変数名;
 ```
 
-**インスタンスメソッド**
+#### インスタンスメソッド
 
 ```java
 public 戻り値の型 メソッド名();
@@ -519,8 +523,38 @@ class Child extends Super {
 }
 ```
 
+#### シールクラス
+- Java SE 17から導入されたクラス
+- シールクラスを継承するサブクラスは、final,sealed,non-sealedのいずれかで修飾しなければならない
+- 同じソースファイル内にあるサブクラスを許可対象とする場合はpermitsを省略できる
+
+```java
+// permitsの後に継承を許可するクラスを指定
+public sealed class スーパークラス名 permits A, B{
+}
+```
+
 ---
-### 抽象クラス・抽象メソッド
+### ポリモーフィズム（多態性）
+* 上位のクラスやインターフェース型としてインスタンスを扱うこと
+
+```java
+B b = new C();
+A t = new C();
+
+(A)b.test(2);	// testメソッドが先に呼び出される
+((A)b).test(2);	// カッコで括るとキャスト式の型変換が優先される
+
+```
+
+#### instanceof演算子のパターンマッチング
+
+* アップキャスト
+	* スーパークラスとサブクラスに、同じ名前のフィールド変数やメソッドがある場合、フィールド変数はスーパークラス、メソッドはサブクラスが優先される
+
+* ダウンキャスト
+
+#### 抽象クラス・抽象メソッド
 
 - サブクラス（具象クラス）が抽象メソッドをオーバーライドしていなければエラーになる
 - サブクラスに、あるメソッドを必ず持たせたいという場合は、スーパークラスに抽象メソッドとして定義しておくことが大事
@@ -536,11 +570,7 @@ abstract class Vehicle {
 }
 ```
 
-**多態性　ポリモーフィズム**
-
-
----
-### インターフェース
+#### インターフェース
 
 - インターフェースはインスタンス化できない
 - インターフェースはfinalで修飾できない（継承することを前提としているため）
@@ -566,19 +596,28 @@ class クラス名 implements インターフェース名{
 class クラス名 implements インターフェースA, インターフェースB{
 }
 ```
-
-----
-### シールクラス
-- Java SE 17から導入されたクラス
-- シールクラスを継承するサブクラスは、final,sealed,non-sealedのいずれかで修飾しなければならない
-- 同じソースファイル内にあるサブクラスを許可対象とする場合はpermitsを省略できる
-
+---
+### レコード
+- 名前付きタプルとも呼ばれる
+- 一度保持したデータは変更できない
+- 継承できない（サブクラスを作れない）
+- アクセス修飾子は`public`または修飾子なし（パッケージプライベート）のみ
 ```java
-// permitsの後に継承を許可するクラスを指定
-public sealed class スーパークラス名 permits A, B{
+public record Customer (String name, int age, String address){
 }
 ```
+レコードクラスのインスタンス生成
+```java
+Customer customer = new Customer("jenny",35,"Tokyo");
 
+// 以下のようにnullを渡してもエラーにならない
+Customer customer = new Customer(null,35,"Tokyo");
+```
+フィールドにアクセスする方法
+```java
+String name = customer.name();
+int age = customer.age();
+```
 ---
 ### 例外処理
 
@@ -603,8 +642,6 @@ try{
 
 }
 ```
-
-
 ---
 ### MEMO
 **JVM**<br>
